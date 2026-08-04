@@ -4,6 +4,9 @@ import { PageHeader } from '@/components/layout/page-header';
 import { categories } from '@/data/products';
 import { notFound } from 'next/navigation';
 
+export const dynamic = 'force-static';
+export const revalidate = 3600; // Revalidate every hour
+
 export async function generateStaticParams() {
   return categories.map((c) => ({ slug: c.slug }));
 }

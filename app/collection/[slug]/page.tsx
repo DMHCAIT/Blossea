@@ -5,6 +5,9 @@ import { collections } from '@/data/products';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 
+export const dynamic = 'force-static';
+export const revalidate = 3600; // Revalidate every hour
+
 export async function generateStaticParams() {
   return collections.map((c) => ({ slug: c.slug }));
 }

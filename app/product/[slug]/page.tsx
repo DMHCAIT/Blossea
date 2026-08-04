@@ -2,6 +2,9 @@ import { ProductDetails } from '@/components/product/product-details';
 import { products } from '@/data/products';
 import { notFound } from 'next/navigation';
 
+export const dynamic = 'force-static';
+export const revalidate = 3600; // Revalidate every hour
+
 export async function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
 }
