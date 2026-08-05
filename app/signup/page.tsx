@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { AuthShell, AuthField, AuthButton, AuthError, supabase } from '@/components/auth/auth-shell';
+import { useAuth } from '@/components/providers/auth-context';
+import { AuthShell, AuthField, AuthButton, AuthError } from '@/components/auth/auth-shell';
 
 export default function SignupPage() {
   const router = useRouter();
+  const { signup } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -21,18 +23,14 @@ export default function SignupPage() {
       return;
     }
     setLoading(true);
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { full_name: name } },
-    });
-    setLoading(false);
-    if (error) {
-      setError(error.message);
-    } else {
+    try {
+      await signup(email, password, name);
       setDone(true);
       setTimeout(() => router.push('/account'), 1500);
+    } catch (err) {
+      setError((err as Error).message);
     }
+    setLoading(false);
   };
 
   return (

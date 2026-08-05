@@ -1,34 +1,63 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import { Session, User } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase-client';
 
-interface AuthContextValue {
-  user: User | null;
-  session: Session | null;
-  loading: boolean;
+interface MockUser {
+  id: string;
+  email: string;
+  name?: string;
 }
 
-const AuthContext = createContext<AuthContextValue>({ user: null, session: null, loading: true });
+interface AuthContextValue {
+  user: MockUser | null;
+  loading: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => void;
+  signup: (email: string, password: string, name: string) => Promise<void>;
+}
+
+const AuthContext = createContext<AuthContextValue>({
+  user: null,
+  loading: true,
+  login: async () => {},
+  logout: () => {},
+  signup: async () => {},
+});
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<MockUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setLoading(false);
-    });
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
-      setSession(s);
-    });
-    return () => sub.subscription.unsubscribe();
+    // Load user from localStorage on mount
+    const stored = localStorage.getItem('auth_user');
+    if (stored) {
+      setUser(JSON.parse(stored));
+    }
+    setLoading(false);
   }, []);
 
+  const login = async (email: string, password: string) => {
+    if (!email || !password) throw new Error('Email and password required');
+    const mockUser: MockUser = { id: `user_${Date.now()}`, email, name: email.split('@')[0] };
+    localStorage.setItem('auth_user', JSON.stringify(mockUser));
+    setUser(mockUser);
+  };
+
+  const signup = async (email: string, password: string, name: string) => {
+    if (!email || !password || !name) throw new Error('All fields required');
+    const mockUser: MockUser = { id: `user_${Date.now()}`, email, name };
+    localStorage.setItem('auth_user', JSON.stringify(mockUser));
+    setUser(mockUser);
+  };
+
+  const logout = () => {
+    localStorage.removeItem('auth_user');
+    setUser(null);
+  };
+
   return (
-    <AuthContext.Provider value={{ user: session?.user ?? null, session, loading }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, signup }}>
       {children}
     </AuthContext.Provider>
   );

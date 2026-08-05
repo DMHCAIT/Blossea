@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { AuthShell, AuthField, AuthButton, AuthError, supabase } from '@/components/auth/auth-shell';
+import { useAuth } from '@/components/providers/auth-context';
+import { AuthShell, AuthField, AuthButton, AuthError } from '@/components/auth/auth-shell';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { login } = useAuth();
+  const [email, setEmail] = useState('demo@example.com');
+  const [password, setPassword] = useState('password123');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -15,13 +17,13 @@ export default function LoginPage() {
     e.preventDefault();
     setError(null);
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setLoading(false);
-    if (error) {
-      setError(error.message);
-    } else {
+    try {
+      await login(email, password);
       router.push('/account');
+    } catch (err) {
+      setError((err as Error).message);
     }
+    setLoading(false);
   };
 
   return (

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { AuthShell, AuthField, AuthButton, AuthError, supabase } from '@/components/auth/auth-shell';
+import { AuthShell, AuthField, AuthButton, AuthError } from '@/components/auth/auth-shell';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -12,13 +12,16 @@ export default function ForgotPasswordPage() {
   const handleReset = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    if (!email) {
+      setError('Please enter your email');
+      return;
+    }
     setLoading(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/login`,
-    });
-    setLoading(false);
-    if (error) setError(error.message);
-    else setSent(true);
+    // Demo: Simulate reset email
+    setTimeout(() => {
+      setSent(true);
+      setLoading(false);
+    }, 1000);
   };
 
   return (

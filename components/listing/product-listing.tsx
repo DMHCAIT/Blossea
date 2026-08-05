@@ -29,6 +29,7 @@ interface ProductListingProps {
   filterCategory?: Category;
   filterCollection?: Collection;
   baseProducts?: Product[];
+  hideHeader?: boolean;
 }
 
 export function ProductListing({
@@ -38,6 +39,7 @@ export function ProductListing({
   filterCategory,
   filterCollection,
   baseProducts,
+  hideHeader,
 }: ProductListingProps) {
   const params = useSearchParams();
   const initialSort = (params.get('sort') as SortKey) || 'newest';
@@ -51,7 +53,8 @@ export function ProductListing({
   const [selectedCols, setSelectedCols] = useState<Collection[]>(
     filterCollection ? [filterCollection] : [],
   );
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 400]);
+  const maxPriceInit = Math.max(...(baseProducts ?? allProducts).map((p) => p.price));
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, maxPriceInit]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedFabrics, setSelectedFabrics] = useState<string[]>([]);
@@ -95,9 +98,10 @@ export function ProductListing({
     set(arr.includes(val) ? arr.filter((x) => x !== val) : [...arr, val]);
 
   const clearAll = () => {
+    const maxPrice = Math.max(...(baseProducts ?? allProducts).map((p) => p.price));
     setSelectedCats(filterCategory ? [filterCategory] : []);
     setSelectedCols(filterCollection ? [filterCollection] : []);
-    setPriceRange([0, 400]);
+    setPriceRange([0, maxPrice]);
     setSelectedColors([]);
     setSelectedSizes([]);
     setSelectedFabrics([]);
@@ -109,11 +113,13 @@ export function ProductListing({
 
   return (
     <div className="container-luxe py-10 md:py-14">
-      <Reveal direction="up">
-        {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-        <h1 className="mt-2 font-serif text-4xl font-medium md:text-6xl">{title}</h1>
-        {description && <p className="mt-4 max-w-xl text-sm text-ink-600">{description}</p>}
-      </Reveal>
+      {!hideHeader && (
+        <Reveal direction="up">
+          {eyebrow && <p className="eyebrow">{eyebrow}</p>}
+          <h1 className="mt-2 font-serif text-4xl font-medium md:text-6xl">{title}</h1>
+          {description && <p className="mt-4 max-w-xl text-sm text-ink-600">{description}</p>}
+        </Reveal>
+      )}
 
       <div className="mt-8 flex items-center justify-between border-b border-ink-900/10 pb-4">
         <button

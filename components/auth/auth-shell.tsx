@@ -4,7 +4,6 @@ import { useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { supabase } from '@/lib/supabase-client';
 import { cn } from '@/lib/utils';
 
 interface AuthShellProps {
@@ -108,5 +107,3 @@ export function useAuthRedirect() {
   const router = useRouter();
   return (path: string) => router.push(path);
 }
-
-export { supabase };

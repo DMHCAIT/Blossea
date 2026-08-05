@@ -6,12 +6,11 @@ import { useRouter } from 'next/navigation';
 import { User, ShoppingBag, Heart, LogOut, Package } from 'lucide-react';
 import { useAuth } from '@/components/providers/auth-context';
 import { useShop } from '@/components/providers/shop-context';
-import { supabase } from '@/lib/supabase-client';
 import { PageHeader } from '@/components/layout/page-header';
 import { Reveal } from '@/components/ui/reveal';
 
 export default function AccountPage() {
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuth();
   const { cart, wishlist } = useShop();
   const router = useRouter();
   const [tab, setTab] = useState<'overview' | 'orders' | 'wishlist'>('overview');
@@ -28,8 +27,8 @@ export default function AccountPage() {
     );
   }
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
+  const handleSignOut = () => {
+    logout();
     router.push('/');
   };
 
@@ -46,7 +45,7 @@ export default function AccountPage() {
                 </div>
                 <div className="min-w-0">
                   <p className="truncate font-serif text-sm font-medium">
-                    {user.user_metadata?.full_name || 'Member'}
+                    {user.name || 'Member'}
                   </p>
                   <p className="truncate text-[10px] uppercase tracking-widest-2 text-warmgray">
                     {user.email}
@@ -84,7 +83,7 @@ export default function AccountPage() {
           <div>
             {tab === 'overview' && (
               <Reveal direction="up">
-                <h2 className="font-serif text-3xl font-medium">Hello, {user.user_metadata?.full_name?.split(' ')[0] || 'Member'}</h2>
+                <h2 className="font-serif text-3xl font-medium">Hello, {user.name?.split(' ')[0] || 'Member'}</h2>
                 <p className="mt-2 text-sm text-warmgray">
                   Manage your orders, wishlist and account details from here.
                 </p>
