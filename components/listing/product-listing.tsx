@@ -53,17 +53,33 @@ export function ProductListing({
   const [selectedCols, setSelectedCols] = useState<Collection[]>(
     filterCollection ? [filterCollection] : [],
   );
-  const maxPriceInit = Math.max(...(baseProducts ?? allProducts).map((p) => p.price));
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, maxPriceInit]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 400]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedFabrics, setSelectedFabrics] = useState<string[]>([]);
   const [inStockOnly, setInStockOnly] = useState(false);
 
+  const maxPrice = useMemo(() => {
+    try {
+      const productsToUse = baseProducts ?? allProducts;
+      if (!productsToUse || productsToUse.length === 0) return 400;
+      const prices = productsToUse.map((p) => p.price);
+      return Math.max(...prices);
+    } catch {
+      return 400;
+    }
+  }, [baseProducts]);
+
   useEffect(() => {
     if (filterCategory) setSelectedCats([filterCategory]);
     if (filterCollection) setSelectedCols([filterCollection]);
   }, [filterCategory, filterCollection]);
+
+  useEffect(() => {
+    if (maxPrice && maxPrice > 0) {
+      setPriceRange([0, maxPrice]);
+    }
+  }, [maxPrice]);
 
   const filtered = useMemo(() => {
     let list = (baseProducts ?? allProducts).filter((p) => {
@@ -98,7 +114,6 @@ export function ProductListing({
     set(arr.includes(val) ? arr.filter((x) => x !== val) : [...arr, val]);
 
   const clearAll = () => {
-    const maxPrice = Math.max(...(baseProducts ?? allProducts).map((p) => p.price));
     setSelectedCats(filterCategory ? [filterCategory] : []);
     setSelectedCols(filterCollection ? [filterCollection] : []);
     setPriceRange([0, maxPrice]);
