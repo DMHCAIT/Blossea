@@ -37,7 +37,7 @@ export function Navbar() {
         className="fixed inset-x-0 top-0 z-50 bg-cream-100/95 backdrop-blur-xl border-b border-ink-900/10"
       >
         <div className="container-luxe flex h-16 items-center justify-between md:h-20">
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2 md:gap-6">
             <button
               onClick={() => setMobileOpen(true)}
               className="text-ink-900 transition-colors"
@@ -80,12 +80,12 @@ export function Navbar() {
 
           <Link
             href="/"
-            className="absolute left-1/2 -translate-x-1/2 font-serif text-xl tracking-[0.3em] transition-colors md:text-2xl text-ink-900"
+            className="absolute left-1/2 -translate-x-1/2 font-serif text-sm md:text-xl tracking-[0.15em] md:tracking-[0.3em] transition-colors md:text-2xl text-ink-900"
           >
             BLOSSEA<span className="text-gold-400">·</span>
           </Link>
 
-          <div className="flex items-center gap-4 md:gap-5">
+          <div className="flex items-center gap-2 md:gap-4 lg:gap-5">
             <button
               onClick={() => setSearchOpen(true)}
               aria-label="Search"
@@ -172,24 +172,26 @@ export function Navbar() {
                     ))}
                   </ul>
                 </div>
-                <Link
-                  href="/collections"
-                  className="col-span-6 group relative overflow-hidden rounded-md"
-                >
-                  <div className="relative aspect-[16/9]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={collections[2].image}
-                      alt={collections[2].name}
-                      className="h-full w-full object-cover transition-transform duration-700 ease-luxury group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-ink-900/30" />
-                    <div className="absolute bottom-6 left-6 text-cream-100">
-                      <p className="eyebrow text-gold-200">Featured</p>
-                      <p className="font-serif text-2xl">{collections[2].name}</p>
+                <div className="col-span-6">
+                  <Link
+                    href="/collections"
+                    className="group relative block overflow-hidden rounded-md"
+                  >
+                    <div className="relative aspect-[16/9]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={collections[2].image}
+                        alt={collections[2].name}
+                        className="h-full w-full object-cover transition-transform duration-700 ease-luxury group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-ink-900/30" />
+                      <div className="absolute bottom-6 left-6 text-cream-100">
+                        <p className="eyebrow text-gold-200">Featured</p>
+                        <p className="font-serif text-2xl">{collections[2].name}</p>
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               </div>
             </motion.div>
           )}

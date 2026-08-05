@@ -14,7 +14,7 @@ const items = [
 
 export function MarqueeBanner() {
   return (
-    <div className="overflow-hidden border-y border-ink-900/10 bg-cream-100 py-4">
+    <div className="overflow-hidden border-y border-ink-900/10 bg-cream-100 py-2 md:py-4">
       <motion.div
         className="flex whitespace-nowrap"
         animate={{ x: ['0%', '-50%'] }}
@@ -23,10 +23,10 @@ export function MarqueeBanner() {
         {[...items, ...items, ...items, ...items].map((item, i) => (
           <span
             key={i}
-            className="mx-6 inline-flex items-center text-[11px] uppercase tracking-ultra-wide text-ink-700"
+            className="mx-2 md:mx-6 inline-flex items-center text-[9px] md:text-[11px] uppercase tracking-ultra-wide text-ink-700"
           >
             {item}
-            <span className="ml-12 text-gold-400">✦</span>
+            <span className="ml-3 md:ml-12 text-gold-400">✦</span>
           </span>
         ))}
       </motion.div>

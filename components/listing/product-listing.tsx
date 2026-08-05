@@ -343,7 +343,7 @@ function FilterPanel(props: FilterPanelProps) {
             onChange={(e) => props.setPriceRange([props.priceRange[0], Number(e.target.value)])}
             className="w-full accent-gold-400"
           />
-          <div className="mt-2 flex justify-between text-[11px] text-warmgray">
+          <div className="mt-2 flex justify-between text-[11px] text-warmgray" suppressHydrationWarning>
             <span>₹{props.priceRange[0].toLocaleString('en-IN')}</span>
             <span>Up to ₹{props.priceRange[1].toLocaleString('en-IN')}</span>
           </div>
