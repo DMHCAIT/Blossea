@@ -1,3 +1,4 @@
+// @ts-ignore - CSS imports don't need type declarations in Next.js
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, Playfair_Display, Cormorant_Garamond } from 'next/font/google';
