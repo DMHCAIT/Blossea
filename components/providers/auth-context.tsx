@@ -16,25 +16,25 @@ interface AuthContextValue {
   signup: (email: string, password: string, name: string) => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextValue>({
-  user: null,
-  loading: true,
-  login: async () => {},
-  logout: () => {},
-  signup: async () => {},
-});
+const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<MockUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     // Load user from localStorage on mount
-    const stored = localStorage.getItem('auth_user');
-    if (stored) {
-      setUser(JSON.parse(stored));
+    try {
+      const stored = localStorage.getItem('auth_user');
+      if (stored) {
+        setUser(JSON.parse(stored));
+      }
+    } catch (error) {
+      console.error('Failed to load auth user:', error);
     }
     setLoading(false);
+    setHydrated(true);
   }, []);
 
   const login = async (email: string, password: string) => {
@@ -56,8 +56,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   };
 
+  const value: AuthContextValue = {
+    user,
+    loading,
+    login,
+    logout,
+    signup,
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, signup }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
@@ -65,7 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;

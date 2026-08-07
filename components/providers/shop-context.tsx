@@ -31,11 +31,13 @@ interface ShopContextValue {
   setMenuOpen: (open: boolean) => void;
 }
 
-const ShopContext = createContext<ShopContextValue | null>(null);
+const ShopContext = createContext<ShopContextValue | undefined>(undefined);
 
 export function useShop() {
   const ctx = useContext(ShopContext);
-  if (!ctx) throw new Error('useShop must be used within ShopProvider');
+  if (ctx === undefined) {
+    throw new Error('useShop must be used within ShopProvider');
+  }
   return ctx;
 }
 
