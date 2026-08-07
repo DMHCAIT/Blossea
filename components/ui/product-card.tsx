@@ -103,13 +103,16 @@ export function ProductCard({
               <ShoppingBag className="h-3.5 w-3.5" />
               Quick Add
             </button>
-            <Link
-              href={`/product/${product.slug}`}
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
               className="flex items-center justify-center bg-white/90 px-4 text-ink-900 backdrop-blur transition-colors hover:bg-white"
               aria-label="Quick view"
             >
               <Eye className="h-4 w-4" />
-            </Link>
+            </button>
           </div>
         </div>
 
