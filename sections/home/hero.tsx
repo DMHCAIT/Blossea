@@ -2,14 +2,15 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { ArrowDown } from 'lucide-react';
 import { RevealText } from '@/components/ui/animated-text';
+import { useScrollSafe } from '@/hooks/use-scroll-safe';
 
 export function HeroSection() {
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress } = useScrollSafe({
     target: ref,
     offset: ['start start', 'end start'],
   });

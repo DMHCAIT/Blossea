@@ -53,12 +53,6 @@ export function ProductListing({
   const [selectedCols, setSelectedCols] = useState<Collection[]>(
     filterCollection ? [filterCollection] : [],
   );
-  const [priceRange, setPriceRange] = useState<[number, number]>(() => [0, 400]);
-  const [selectedColors, setSelectedColors] = useState<string[]>([]);
-  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [selectedFabrics, setSelectedFabrics] = useState<string[]>([]);
-  const [inStockOnly, setInStockOnly] = useState(false);
-
   const maxPrice = useMemo(() => {
     try {
       const productsToUse = baseProducts ?? allProducts;
@@ -69,6 +63,11 @@ export function ProductListing({
       return 400;
     }
   }, [baseProducts]);
+  const [priceRange, setPriceRange] = useState<[number, number]>(() => [0, maxPrice]);
+  const [selectedColors, setSelectedColors] = useState<string[]>([]);
+  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
+  const [selectedFabrics, setSelectedFabrics] = useState<string[]>([]);
+  const [inStockOnly, setInStockOnly] = useState(false);
 
   useEffect(() => {
     if (filterCategory) setSelectedCats([filterCategory]);

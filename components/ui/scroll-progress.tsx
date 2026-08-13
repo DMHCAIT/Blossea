@@ -1,9 +1,10 @@
 'use client';
 
-import { motion, useScroll, useSpring } from 'framer-motion';
+import { motion, useSpring } from 'framer-motion';
+import { useScrollSafe } from '@/hooks/use-scroll-safe';
 
 export function ScrollProgress() {
-  const { scrollYProgress } = useScroll();
+  const { scrollYProgress } = useScrollSafe();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 120,
     damping: 30,

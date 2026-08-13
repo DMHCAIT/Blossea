@@ -3,14 +3,15 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { collections } from '@/data/products';
 import { Reveal } from '@/components/ui/reveal';
+import { useScrollSafe } from '@/hooks/use-scroll-safe';
 
 export function TrendingCollections() {
   const trackRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress } = useScrollSafe({
     target: trackRef,
     offset: ['start end', 'end start'],
   });

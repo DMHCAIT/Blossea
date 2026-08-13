@@ -1,15 +1,16 @@
 'use client';
 
 import Image from 'next/image';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { Reveal } from '@/components/ui/reveal';
 import { AnimatedText, RevealText } from '@/components/ui/animated-text';
 import Link from 'next/link';
+import { useScrollSafe } from '@/hooks/use-scroll-safe';
 
 export function BrandStory() {
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress } = useScrollSafe({
     target: ref,
     offset: ['start end', 'end start'],
   });

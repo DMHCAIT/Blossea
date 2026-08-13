@@ -2,10 +2,11 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { collections } from '@/data/products';
 import { Reveal } from '@/components/ui/reveal';
+import { useScrollSafe } from '@/hooks/use-scroll-safe';
 
 export function SeasonalCollections() {
   const seasonal = collections.filter((c) => c.season !== 'all');
@@ -37,7 +38,7 @@ function SeasonalRow({
   index: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress } = useScrollSafe({
     target: ref,
     offset: ['start end', 'end start'],
   });
