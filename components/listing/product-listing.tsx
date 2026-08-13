@@ -53,7 +53,7 @@ export function ProductListing({
   const [selectedCols, setSelectedCols] = useState<Collection[]>(
     filterCollection ? [filterCollection] : [],
   );
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 400]);
+  const [priceRange, setPriceRange] = useState<[number, number]>(() => [0, 400]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedFabrics, setSelectedFabrics] = useState<string[]>([]);
@@ -77,7 +77,12 @@ export function ProductListing({
 
   useEffect(() => {
     if (maxPrice && maxPrice > 0) {
-      setPriceRange([0, maxPrice]);
+      setPriceRange((prev) => {
+        if (prev[1] === 400 && prev[0] === 0) {
+          return [0, maxPrice];
+        }
+        return prev;
+      });
     }
   }, [maxPrice]);
 
