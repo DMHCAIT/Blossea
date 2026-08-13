@@ -3,12 +3,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { ArrowDown } from 'lucide-react';
 import { RevealText } from '@/components/ui/animated-text';
 import { useScrollSafe } from '@/hooks/use-scroll-safe';
 
-export function HeroSection() {
+function HeroContent() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScrollSafe({
     target: ref,
@@ -97,4 +97,13 @@ export function HeroSection() {
       </motion.div>
     </section>
   );
+}
+
+export function HeroSection() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted) return <div className="h-[500px] md:h-[600px]" />;
+  return <HeroContent />;
 }

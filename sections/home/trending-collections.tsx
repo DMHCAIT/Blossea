@@ -2,14 +2,14 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { collections } from '@/data/products';
 import { Reveal } from '@/components/ui/reveal';
 import { useScrollSafe } from '@/hooks/use-scroll-safe';
 
-export function TrendingCollections() {
+function TrendingCollectionsContent() {
   const trackRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScrollSafe({
     target: trackRef,
@@ -76,4 +76,13 @@ export function TrendingCollections() {
       </motion.div>
     </section>
   );
+}
+
+export function TrendingCollections() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted) return <div className="h-96 bg-ink-900" />;
+  return <TrendingCollectionsContent />;
 }

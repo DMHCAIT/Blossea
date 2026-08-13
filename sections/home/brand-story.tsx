@@ -2,13 +2,13 @@
 
 import Image from 'next/image';
 import { motion, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Reveal } from '@/components/ui/reveal';
 import { AnimatedText, RevealText } from '@/components/ui/animated-text';
 import Link from 'next/link';
 import { useScrollSafe } from '@/hooks/use-scroll-safe';
 
-export function BrandStory() {
+function BrandStoryContent() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScrollSafe({
     target: ref,
@@ -94,4 +94,13 @@ export function BrandStory() {
       </div>
     </section>
   );
+}
+
+export function BrandStory() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted) return <div className="py-16 md:py-20" />;
+  return <BrandStoryContent />;
 }

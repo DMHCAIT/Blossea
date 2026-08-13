@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { collections } from '@/data/products';
 import { Reveal } from '@/components/ui/reveal';
 import { useScrollSafe } from '@/hooks/use-scroll-safe';
@@ -28,7 +28,7 @@ export function SeasonalCollections() {
   );
 }
 
-function SeasonalRow({
+function SeasonalRowContent({
   collection,
   reverse,
   index,
@@ -88,4 +88,21 @@ function SeasonalRow({
       </div>
     </Reveal>
   );
+}
+
+function SeasonalRow({
+  collection,
+  reverse,
+  index,
+}: {
+  collection: (typeof collections)[number];
+  reverse: boolean;
+  index: number;
+}) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted) return <div className="h-48" />;
+  return <SeasonalRowContent collection={collection} reverse={reverse} index={index} />;
 }
