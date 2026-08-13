@@ -1,15 +1,19 @@
 'use client';
 
 import { motion, useSpring } from 'framer-motion';
-import { useScrollSafe } from '@/hooks/use-scroll-safe';
+import { useScrollSafe, useClientOnly } from '@/hooks/use-scroll-safe';
 
 export function ScrollProgress() {
+  const isClient = useClientOnly();
   const { scrollYProgress } = useScrollSafe();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 120,
     damping: 30,
     restDelta: 0.001,
   });
+
+  // Only render on client to prevent SSR hydration mismatch
+  if (!isClient) return null;
 
   return (
     <motion.div
