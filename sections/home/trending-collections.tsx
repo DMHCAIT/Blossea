@@ -35,7 +35,7 @@ export function TrendingCollections() {
       </div>
 
       <motion.div
-        ref={trackRef}
+        ref={trackRef as React.RefObject<HTMLDivElement>}
         style={{ x }}
         className="mt-14 flex gap-5 pl-5 pr-[25%] md:pl-12 md:pr-[25%] lg:gap-7"
       >

@@ -45,10 +45,11 @@ function SeasonalRow({
 
   return (
     <Reveal direction="up" delay={index * 0.05}>
-      <Link
-        href={`/collection/${collection.slug}`}
-        className="group grid grid-cols-1 overflow-hidden rounded-md bg-cream-200 lg:grid-cols-2"
-      >
+      <div ref={ref as React.RefObject<HTMLDivElement>}>
+        <Link
+          href={`/collection/${collection.slug}`}
+          className="group grid grid-cols-1 overflow-hidden rounded-md bg-cream-200 lg:grid-cols-2"
+        >
         <div
           className={`relative aspect-[4/3] overflow-hidden lg:aspect-auto ${
             reverse ? 'lg:order-2' : ''
@@ -83,6 +84,7 @@ function SeasonalRow({
           </div>
         </div>
       </Link>
+      </div>
     </Reveal>
   );
 }

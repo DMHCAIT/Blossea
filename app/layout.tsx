@@ -1,22 +1,7 @@
 // @ts-ignore - CSS imports don't need type declarations in Next.js
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display, Cormorant_Garamond } from 'next/font/google';
 import { Providers } from '@/components/providers';
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair',
-  display: 'swap',
-  weight: ['400', '500', '600', '700', '800'],
-});
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  variable: '--font-cormorant',
-  display: 'swap',
-  weight: ['300', '400', '500', '600', '700'],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://blossea.example'),
@@ -46,7 +31,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable} ${cormorant.variable}`}>
+    <html lang="en">
       <body className="font-sans antialiased">
         <Providers>{children}</Providers>
       </body>
