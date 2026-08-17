@@ -37,27 +37,27 @@ export function Navbar() {
         className="fixed inset-x-0 top-0 z-50 bg-cream-100/95 backdrop-blur-xl border-b border-ink-900/10"
       >
         <div className="container-luxe flex h-16 items-center justify-between md:h-20">
-          <div className="flex items-center gap-2 md:gap-6">
+          <div className="flex items-center gap-2 md:gap-6 flex-1 min-w-0">
             <button
               onClick={() => setMobileOpen(true)}
-              className="text-ink-900 transition-colors"
+              className="text-ink-900 transition-colors flex-shrink-0"
               aria-label="Open menu"
             >
               <Menu className="h-5 w-5" />
             </button>
 
-            <nav className="hidden lg:flex items-center gap-7">
+            <nav className="hidden xl:flex items-center gap-4 h-full max-w-xs">
               {navLinks.map((link) =>
                 link.mega ? (
                   <div
                     key={link.href}
-                    className="relative"
+                    className="relative flex items-center h-full"
                     onMouseEnter={() => setMegaOpen(true)}
                     onMouseLeave={() => setMegaOpen(false)}
                   >
                     <Link
                       href={link.href}
-                      className="text-[11px] uppercase tracking-ultra-wide transition-colors link-underline text-ink-900"
+                      className="text-[11px] uppercase tracking-ultra-wide transition-colors link-underline text-ink-900 leading-none flex items-center whitespace-nowrap"
                     >
                       {link.label}
                     </Link>
@@ -67,7 +67,7 @@ export function Navbar() {
                     key={link.href}
                     href={link.href}
                     className={cn(
-                      'text-[11px] uppercase tracking-ultra-wide transition-colors link-underline text-ink-900',
+                      'text-[11px] uppercase tracking-ultra-wide transition-colors link-underline text-ink-900 leading-none flex items-center h-full whitespace-nowrap',
                       pathname === link.href && 'text-gold-400',
                     )}
                   >
@@ -80,12 +80,12 @@ export function Navbar() {
 
           <Link
             href="/"
-            className="absolute left-1/2 -translate-x-1/2 font-serif text-sm md:text-xl tracking-[0.15em] md:tracking-[0.3em] transition-colors md:text-2xl text-ink-900"
+            className="absolute left-1/2 -translate-x-1/2 font-serif text-sm md:text-xl tracking-[0.15em] md:tracking-[0.3em] transition-colors md:text-2xl text-ink-900 flex-shrink-0"
           >
             BLOSSEA<span className="text-gold-400">·</span>
           </Link>
 
-          <div className="flex items-center gap-2 md:gap-4 lg:gap-5">
+          <div className="flex items-center gap-2 md:gap-4 lg:gap-5 flex-shrink-0">
             <button
               onClick={() => setSearchOpen(true)}
               aria-label="Search"
